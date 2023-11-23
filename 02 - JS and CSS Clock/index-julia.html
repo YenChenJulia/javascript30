@@ -61,7 +61,8 @@
         top: 50%;
         transform: rotate(90deg);
         transform-origin: 100%;
-        /* transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
+				transition: all 0.5s;
+        transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
       }
     </style>
 
@@ -87,6 +88,8 @@
       }
 
       setInterval(setDate, 1000);
+
+			//1.看影片後實作一直都不曉得為什麼要加transition，看起來並沒有太大差別，查找資料後才知道以目前這樣只是一個畫面切換另一個畫面，不像實際上秒針跳動的特效，所以需要修正這個部分，不過加完後我還是看不太出來差別...
     </script>
   </body>
 </html>
