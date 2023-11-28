@@ -62,7 +62,8 @@
         transform: rotate(90deg);
         transform-origin: 100%;
 				transition: all 0.5s;
-        transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+        /* transition-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1); */
+        transition-timing-function: cubic-bezier(0.1, 2.7, 0.58, 1);
       }
     </style>
 
@@ -76,10 +77,20 @@
         const seconds = now.getSeconds();
         const secondsDegrees = ((seconds / 60) * 360 + 90);
         secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
+				if(secondsDegrees === 90){
+					secondHand.style.transition = 'all 0s'
+				} else {
+					secondHand.style.transition = 'all 0.5s'
+				}
 
 				const mins = now.getMinutes()
         const minutesDegrees = ((mins / 60) * 360 + 90);
 				minsHand.style.transform = `rotate(${minutesDegrees}deg)`
+				if(minutesDegrees === 90){
+					minsHand.style.transition = 'all 0s'
+				} else {
+					minsHand.style.transition = 'all 0.5s'
+				}
 
 				const hour = now.getHours()
         const hourDegrees = ((hour / 12) * 360 + 90);
@@ -89,7 +100,8 @@
 
       setInterval(setDate, 1000);
 
-			//1.看影片後實作一直都不曉得為什麼要加transition，看起來並沒有太大差別，查找資料後才知道以目前這樣只是一個畫面切換另一個畫面，不像實際上秒針跳動的特效，所以需要修正這個部分，不過加完後我還是看不太出來差別...
+			//1.加transition，查找資料後才知道以目前這樣只是一個畫面切換另一個畫面，不像實際上秒針跳動的特效，所以需要修正這個部分
+			//2.加了transition後，秒針回到原點會有逆轉的情況，需修正
     </script>
   </body>
 </html>
