@@ -75,15 +75,15 @@
       // objay.prototype.filter()
       // 1. Filter the list of inventors for those who were born in the 1500's
       const inventorsBornIn1500 = inventors.filter(
-        (inventor) => inventor.year > 1500 && inventor.year < 1600
+        (inventor) => inventor.year >= 1500 && inventor.year < 1600
       );
       console.log(inventorsBornIn1500);
       // objay.prototype.map()
       // 2. Give us an objay of the inventors first and last names
-      const inventorsFirstAndLastName = inventors.map((inventor) => {
+      const fullName = inventors.map((inventor) => {
         return `${inventor.first} ${inventor.last}`;
       });
-      console.log(inventorsFirstAndLastName);
+      console.log(fullName);
       // objay.prototype.sort()
       // 3. Sort the inventors by birthdate, oldest to youngest
       const inventorsSortByBirthdate = inventors.sort((a, b) => {
@@ -92,9 +92,9 @@
       console.log(inventorsSortByBirthdate);
       // objay.prototype.reduce()
       // 4. How many years did all the inventors live all together?
-      const totalLiveYears = inventors.reduce((obj, curr) => {
-        obj += curr.passed - curr.year;
-        return obj;
+      const totalLiveYears = inventors.reduce((total, curr) => {
+        total += curr.passed - curr.year;
+        return total;
       }, 0);
       console.log(totalLiveYears);
       // 5. Sort the inventors by years lived
