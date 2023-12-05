@@ -200,7 +200,6 @@
       panels.forEach((panel) => panel.addEventListener("click", getAnimation));
 
       function getAnimation(e) {
-        console.log(this.classList.length);
         const p = this.querySelectorAll("p");
 
         if (this.classList.length === 3) {
