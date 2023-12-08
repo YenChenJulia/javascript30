@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <script>
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const locations = [];
+      fetch(endpoint)
+        .then((response) => response.json())
+        .then((data) => locations.push(...data));
+
+      //綁監聽器在input
+      //input.value傳入
+      //filter new Array
+
+      //改html的li //highlight keyword
+      //按enter還原
+
+      const input = document.querySelector("input");
+      const suggestions = document.querySelector(".suggestions");
+
+      input.addEventListener("input", matchLocations);
+
+      function matchLocations() {
+        let keyword = this.value.toLowerCase();
+        const locationsFiltered = locations.filter(
+          (location) =>
+            location.city.toLowerCase().includes(keyword) ||
+            location.state.toLowerCase().includes(keyword)
+        );
+        let htmlContent = ``;
+
+        if (locationsFiltered.length) {
+          locationsFiltered.forEach((locationFiltered) => {
+            //人口數加千位符號
+            const populationPrint = locationFiltered.population.split("");
+            populationPrint.splice(-3, 0, ",");
+
+            //keyword反底色
+            const cityContent = highlight(locationFiltered.city, keyword);
+            const stateContent = highlight(locationFiltered.state, keyword);
+            const city = cityContent ? cityContent : locationFiltered.city;
+            const state = stateContent ? stateContent : locationFiltered.state;
+
+            htmlContent += `
+					<li>
+						<span>${city}, ${state}</span>
+       		  <span class="population">${populationPrint.join("")}</span>
+					</li>`;
+          });
+        }
+
+        suggestions.innerHTML = htmlContent;
+      }
+
+      //反底色
+      function highlight(string, inputValue) {
+        let highlightStart = string
+          .toLowerCase()
+          .indexOf(inputValue.toLowerCase());
+        let highlightEnd = highlightStart + (inputValue.length - 1);
+
+        if (highlightStart < 0) return;
+
+        let stringArray;
+        if (highlightStart === 0) {
+          stringArray = [
+            string.substring(0, highlightEnd + 1),
+            string.substring(highlightEnd + 1),
+          ];
+        } else if (highlightEnd === string.length - 1) {
+          stringArray = [
+            string.substring(0, highlightStart),
+            string.substring(highlightStart),
+          ];
+        } else {
+          stringArray = [
+            string.substring(0, highlightStart),
+            string.substring(highlightStart, highlightEnd + 1),
+            string.substring(highlightEnd + 1),
+          ];
+        }
+        const stringArrayLowerCase = stringArray.map((e) => e.toLowerCase());
+        const index = stringArrayLowerCase.indexOf(inputValue.toLowerCase());
+
+        const gap = 2;
+        stringArray.splice(index, 0, "<span class='hl'>");
+        stringArray.splice(index + gap, 0, "</span>");
+        return stringArray.join("");
+      }
+    </script>
+  </body>
+</html>

@@ -67,6 +67,9 @@ input.search {
 
 span.population {
   font-size: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .hl {
