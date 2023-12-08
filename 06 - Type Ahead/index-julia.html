@@ -49,6 +49,9 @@
             //人口數加千位符號
             const populationPrint = locationFiltered.population.split("");
             populationPrint.splice(-3, 0, ",");
+            if(populationPrint.length > 7) {
+            populationPrint.splice(-7,0,",")
+            }
 
             //keyword反底色
             const cityContent = highlight(locationFiltered.city, keyword);
