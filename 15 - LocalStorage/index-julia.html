@@ -92,6 +92,8 @@
               plate.done ? "checked" : ""
             }/>
             <label for= "item${i}">${plate.text}</label> 
+            <button data-index= ${i}>delete</button>
+            
             </li>
             `;
           })
@@ -99,26 +101,38 @@
       }
 
       function toggleDone(e) {
-        if (!e.target.matches("input")) return;
+        // if (!e.target.matches("input")) return;
         const el = e.target;
         const index = e.target.dataset.index;
+        //新增全部取消功能
+        if (e.target.matches("button")){
+        items.splice(index, 1)
+        }
+        if(e.target.matches("input")){
 
         items[index].done = !items[index].done;
+        }
+
         localStorage.setItem("items", JSON.stringify(items));
         populateList(items, itemsList);
       }
-      
+
       //新增全選或取消功能
       function toggleCheck(e) {
-        const checkedStatus = e.target.checked
-        items.forEach(item => item.done = checkedStatus)
+        const checkedStatus = e.target.checked;
+        items.forEach((item) => (item.done = checkedStatus));
         localStorage.setItem("items", JSON.stringify(items));
         populateList(items, itemsList);
+      }
+
+      function deleteItem(e) {
+        console.log(this);
       }
 
       addItems.addEventListener("submit", addItem);
       itemsList.addEventListener("click", toggleDone);
       checkAll.addEventListener("click", toggleCheck);
+
       populateList(items, itemsList);
     </script>
   </body>
