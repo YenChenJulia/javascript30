@@ -52,12 +52,22 @@
         <input type="text" name="item" placeholder="Item Name" required />
         <input type="submit" value="+ Add Item" />
       </form>
+      <form>
+        <ul class="check-method">
+          <li>
+            <input type="checkbox" id="check-all" />
+            <label for="check-all">check all</label>
+          </li>
+        </ul>
+      </form>
     </div>
 
     <script>
       const addItems = document.querySelector(".add-items");
       const itemsList = document.querySelector(".plates");
       const items = JSON.parse(localStorage.getItem("items")) || [];
+      const addAll = document.querySelector(".add-all");
+      const checkAll = document.querySelector("#check-all");
 
       function addItem(e) {
         e.preventDefault();
@@ -79,7 +89,8 @@
             return `
             <li>
             <input type = "checkbox" data-index = ${i} id = "item${i}" ${
-              plate.done ? "checked" : ""}/>
+              plate.done ? "checked" : ""
+            }/>
             <label for= "item${i}">${plate.text}</label> 
             </li>
             `;
@@ -88,19 +99,26 @@
       }
 
       function toggleDone(e) {
-      if(!e.target.matches('input'))return
-      const el = e.target
-      const index = e.target.dataset.index
+        if (!e.target.matches("input")) return;
+        const el = e.target;
+        const index = e.target.dataset.index;
 
-      items[index].done = !items[index].done
-      localStorage.setItem("items", JSON.stringify(items));
-      populateList(items, itemsList)
-      
+        items[index].done = !items[index].done;
+        localStorage.setItem("items", JSON.stringify(items));
+        populateList(items, itemsList);
       }
-    
+      
+      //新增全選或取消功能
+      function toggleCheck(e) {
+        const checkedStatus = e.target.checked
+        items.forEach(item => item.done = checkedStatus)
+        localStorage.setItem("items", JSON.stringify(items));
+        populateList(items, itemsList);
+      }
 
       addItems.addEventListener("submit", addItem);
       itemsList.addEventListener("click", toggleDone);
+      checkAll.addEventListener("click", toggleCheck);
       populateList(items, itemsList);
     </script>
   </body>
