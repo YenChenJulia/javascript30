@@ -134,6 +134,8 @@
       checkAll.addEventListener("click", toggleCheck);
 
       populateList(items, itemsList);
+
+      //target current-target: 如果把監聽器綁在父層元素，對該父層執行指定事件，其target與current.target皆會指向父層，但假如是對內子層元素執行，其target指向子層，current.target則指向父層
     </script>
   </body>
 </html>
