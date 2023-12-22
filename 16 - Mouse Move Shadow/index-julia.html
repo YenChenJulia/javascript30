@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Mouse Shadow</title>
+    <link rel="icon" href="https://fav.farm/🔥" />
+  </head>
+  <body>
+    <div class="hero">
+      <h1 contenteditable>🔥WOAH!</h1>
+    </div>
+
+    <style>
+      html {
+        color: black;
+        font-family: sans-serif;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: black;
+      }
+
+      h1 {
+        text-shadow: 10px 10px 0 rgba(0, 0, 0, 1);
+        font-size: 100px;
+
+        outline: 1px solid red;
+      }
+    </style>
+
+    <script>
+      const hero = document.querySelector(".hero");
+      const text = hero.querySelector("h1");
+
+      function shadow(e) {
+        const { offsetWidth: width, offsetHeight: hight } = hero;
+        let { offsetX: x, offsetY: y } = e;
+
+        // console.log(x,y);
+        // console.log(this, e.target, e.currentTarget);
+        if (this != e.target) {
+          x = x + e.target.offsetLeft;
+          y = y + e.target.offsetTop;
+        }
+        // console.log(x, y);
+
+        //因為text-shadow從中間開始渲染，所以原點需從原始左上角移到中間
+
+        const displacement = 500; //500px
+        const xDisplacement = Math.round(
+          (x / width) * displacement - displacement / 2
+        );
+        const yDisplacement = Math.round(
+          (y / width) * displacement - displacement / 2
+        );
+
+        console.log(xDisplacement, yDisplacement);
+
+        text.style.textShadow = `
+        ${xDisplacement}px ${yDisplacement}px 0 red,
+        ${xDisplacement}px ${yDisplacement * -1}px 0 yellow,
+        ${xDisplacement * -1}px ${yDisplacement}px 0 blue,
+        ${xDisplacement * -1}px ${yDisplacement * -1}px 0 green
+        `;
+      }
+
+      hero.addEventListener("mousemove", shadow);
+    </script>
+  </body>
+</html>
