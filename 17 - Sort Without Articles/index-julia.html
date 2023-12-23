@@ -47,69 +47,86 @@
     </ul>
 
     <script>
-            const bands = [
-              "The Plot in You",
-              "The Devil Wears Prada",
-              "Pierce the Veil",
-              "Norma Jean",
-              "The Bled",
-              "Say Anything",
-              "The Midway State",
-              "We Came as Romans",
-              "Counterparts",
-              "Oh, Sleeper",
-              "A Skylit Drive",
-              "Anywhere But Here",
-              "An Old Dog",
-            ];
+      const bands = [
+        "The Plot in You",
+        "The Devil Wears Prada",
+        "Pierce the Veil",
+        "Norma Jean",
+        "The Bled",
+        "Say Anything",
+        "The Midway State",
+        "We Came as Romans",
+        "Counterparts",
+        "Oh, Sleeper",
+        "A Skylit Drive",
+        "Anywhere But Here",
+        "An Old Dog",
+      ];
 
-            const bandsList = document.querySelector("#bands");
+      const bandsList = document.querySelector("#bands");
 
+      //method1: regex
+      // function ignoreArticle(bandName) {
+      //   return bandName.replace(/^(a |an |the )/i, "").trim();
+      // }
 
-            //method1: regex
-            //method2: 
-            const bandsWithSortNumber = bands.map((band, index) => {
-             return {band, sortNumber: getSortNumber(band)}
-            })
-            const bandsAfterSorted = bandsWithSortNumber.sort(function(a,b) {
-              return a.sortNumber - b.sortNumber
-            } )
-            
-            const sortedBands = bandsAfterSorted.reduce((sortedBands, curr) => {
-              sortedBands.push(curr.band)
-              return sortedBands
-            },[])
+      // const sortedBands = bands.sort((a, b) =>
+      //   ignoreArticle(a) > ignoreArticle(b) ? 1 : -1
+      // );
 
-            bandsList.innerHTML = sortedBands
-              .map((band) => {
-                return `<li>${band}</li>`;
-              })
-              .join("");
+      // bandsList.innerHTML = sortedBands
+      //   .map((band) => `<li>${band}</li>`)
+      //   .join("");
 
-            function getSortNumber(string) {
-             const stringArray = string.split(" ")
-             let sortNumber = 0
-             if(hasArticle(string)) {
-              sortNumber = stringArray[1].codePointAt()
-             } else {
-              sortNumber = stringArray[0].codePointAt()
-             }
-             return sortNumber
-            }
+      //method2:
+      const bandsWithSortNumber = bands.map((band, index) => {
+       return {band, sortNumber: getSortNumber(band),index}
+      })
+      const bandsAfterSorted = bandsWithSortNumber.sort(function(a,b) {
+        return a.sortNumber - b.sortNumber
+      } )
 
-            function hasArticle(string) {
-              let startArticle = false;
-              if (
-                string.includes("The ") ||
-                string.includes("A ") ||
-                string.includes("An ")
-              ) {
-                startArticle = true;
-              } else {
-                startArticle = false;
-              }
-              return startArticle
-            }
+      // const sortedBands = bandsAfterSorted.reduce((sortedBands, curr) => {
+      //   sortedBands.push(curr.band)
+      //   return sortedBands
+      // },[])
+      console.log(bandsAfterSorted);
+
+      const sortedBands = bandsAfterSorted.map(band => {
+        return bands[band.index]
+      })
+      
+
+      bandsList.innerHTML = sortedBands
+        .map((band) => {
+          return `<li>${band}</li>`;
+        })
+        .join("");
+
+      function getSortNumber(string) {
+       const stringArray = string.split(" ")
+       let sortNumber = 0
+       if(hasArticle(string)) {
+        sortNumber = stringArray[1].codePointAt()
+       } else {
+        sortNumber = stringArray[0].codePointAt()
+       }
+       return sortNumber
+      }
+
+      function hasArticle(string) {
+        let startArticle = false;
+        if (
+          string.includes("The ") ||
+          string.includes("A ") ||
+          string.includes("An ")
+        ) {
+          startArticle = true;
+        } else {
+          startArticle = false;
+        }
+        return startArticle
+      }
     </script>
   </body>
 </html>
