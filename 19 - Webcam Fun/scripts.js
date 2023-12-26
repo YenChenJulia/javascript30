@@ -76,6 +76,7 @@ function greenScreen(pixels) {
   });
 
   for (let i = 0; i < pixels.data.length; i += 4) {
+    //如果只是在其中用於判斷，之後沒有要使用，並不需要用let做變數宣告，意義只是讓code變好懂的代名詞
     red = pixels.data[i];
     green = pixels.data[i + 1];
     blue = pixels.data[i + 2];
@@ -90,6 +91,7 @@ function greenScreen(pixels) {
       blue <= levels.bmax
     ) {
       // alpha = 0;
+      // 如果設alpha =0，並不會改到pixels.data[i + 3]，跟上面的alpha = pixels.data[i + 3]是兩件不同的事，pixels.data[i + 3] = alpha = 0 是誤會一場
       pixels.data[i + 3] = 0
     }
   }
