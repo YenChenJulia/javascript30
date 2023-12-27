@@ -268,7 +268,7 @@
       function handleEnter() {
         this.classList.add('trigger-enter')
         
-        setTimeout(()=> this.classList.add('trigger-enter-active'), 15)
+        setTimeout(()=> this.classList.contains('trigger-enter') && this.classList.add('trigger-enter-active'), 150)
         dropdownBackground.classList.add('open')
 
         const dropdown = this.querySelector('.dropdown')
@@ -289,10 +289,7 @@
 
       function handleLeave() {
         dropdownBackground.classList.remove('open')
-        this.classList.remove('trigger-enter')
-        this.classList.remove('trigger-enter-active')
-
-        
+        this.classList.remove('trigger-enter', 'trigger-enter-active')
       }
 
 
