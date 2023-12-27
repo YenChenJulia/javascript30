@@ -56,7 +56,7 @@
 
 <script>
   const body = document.querySelector('body')
-  const main = document.querySelector('#main')
+  const nav = document.querySelector('#main')
   const header = document.querySelector('header')
   const logo = document.querySelector('.logo')
 
@@ -65,7 +65,7 @@
 
     if(window.scrollY > headerBoundary.height) {
       body.classList.add('fixed-nav')
-      body.style.paddingTop = '77px'
+      body.style.paddingTop = nav.offsetHeight + 'px'
     }
     else {
     body.classList.remove('fixed-nav')
