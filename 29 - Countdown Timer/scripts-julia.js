@@ -14,9 +14,9 @@ function countdown() {
 
 function customCountdown(e) {
   const countdownObj = { countdownMinutes: this.value, countdownSeconds: 0 };
+  e.preventDefault();
   showDisplayTimeLeft(countdownObj);
   showDisplayEndTime(countdownObj)
-  e.preventDefault();
 }
 
 function getCountdownMinutesAndSeconds(totalSeconds) {
@@ -51,4 +51,5 @@ function showNumber(num) {
 }
 
 timeButtons.forEach(button => button.addEventListener("click", countdown));
-customInput.addEventListener("change", customCountdown);
+//input tag沒有submit事件，所以不成立
+customInput.addEventListener("submit", customCountdown);
