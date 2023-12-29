@@ -37,38 +37,54 @@
     </div>
 
     <script>
-      
       const holes = document.querySelectorAll(".hole");
       const scoreBoard = document.querySelector(".score");
       const moles = document.querySelectorAll(".mole");
       let score = 0;
+      let lastHole
+      let timeUp = false
+      
 
+      function randomTime(min, max) {
+        return Math.round(Math.random(max - min) + min)
+      }
+
+      function randomHole(holes) {
+        const random = Math.floor(Math.random() * holes.length)
+        const hole = holes[random] 
+        if(hole === lastHole) {
+          return randomHole(holes)
+        }
+        lastHole = hole
+        return hole
+      }
+
+      function peep() {
+        const hole = randomHole(holes)
+        const time = randomTime(1000, 3000)
+        hole.classList.add('up')
+        setTimeout(() => {
+        hole.classList.remove('up')
+        if(!timeUp) peep()
+        }, time )
+        
+        
+      }
+      
       function startGame() {
-        const randomSeconds = 10;
-        timer(randomSeconds);
-      }
-
-      function timer(randomSeconds) {
-        const now = Date.now();
-        const then = now + randomSeconds * 1000;
-
-       let game = setInterval(() => {
-          const random = Math.floor(Math.random() * 6);
-          const randomHole = Array.from(holes).find(
-            (hole, index) => index === random
-          );
-          randomHole.classList.add("up");
-          const secondsLeft = Math.round((then - Date.now()) / 1000);
-          if (secondsLeft < 0) {
-            clearInterval(game);
-            return;
-          }
-        }, 2000);
+        scoreBoard.innerHTML = 0
+        timeUp = false
+        score = 0 
+        peep()
+        setTimeout(() => timeUp = true, 10000 )
       }
 
 
-      function getScore() {
+      function getScore(e) {
+        //透過事件的 isTrusted 屬性是否為 true 來確認事件由用戶實際的操作觸發的，不是透過程式、腳本點擊，那麼才會計分。
+        if(!e.isTrusted) return
         score++;
+        this.parentNode.classList.remove('up')
         scoreBoard.innerHTML = score;
       }
 
